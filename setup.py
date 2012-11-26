@@ -7,7 +7,7 @@ setup(name='pymtt',
       author='Pavel Klemenkov',
       author_email='pklemenkov@gmail.com',
       url='https://github.com/pklemenkov/pymtt',
-      requires=[
+      install_requires=[
           'Jinja2 >=2.3'
       ],
       scripts=[
