@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+import os
+import sys
+from optparse import OptionParser
+
+from pymtt import PyMTT
+
+if __name__ == '__main__':
+    parser = OptionParser(usage='%prog [options] source destination')
+    parser.add_option('-b', dest='files',
+                      help='colon-separated list of before-process files')
+    parser.add_option('-e', dest='env', action='store_true', default=False,
+                      help='rewrite values with environemnt variables')
+    parser.add_option('-d', dest='django', action='store_true', default=False,
+                      help='use Django settings as first before-process file')
+    options, args = parser.parse_args()
+    if len(args) != 2:
+        parser.print_help()
+        sys.exit(0)
+
+    mtt = PyMTT(os.path.dirname(args[0]))
+    if options.django:
+        from django.conf import settings
+        mtt.update_context_from_module(settings)
+    if options.files:
+        modules = mtt.modules_from_files(options.files.split(':'))
+        mtt.update_context_from_modules(modules)
+    if options.env:
+        mtt.update_context_from_env()
+    mtt.render_and_write(os.path.basename(args[0]), args[1])
