@@ -50,7 +50,6 @@ class PyMTT(object):
 
     def update_context_from_env(self):
         '''Update current context from environment.'''
-        import os
         for attr, value in os.environ.iteritems():
             try:
                 value = eval(value)
