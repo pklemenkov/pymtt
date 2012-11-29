@@ -2,11 +2,14 @@
 from setuptools import setup
 
 setup(name='pymtt',
-      version='1.0',
-      description='Python Config Generator',
+      version='0.1',
+      description='Command-line Text Transformer',
+      long_description=open('README.rst').read(),
       author='Pavel Klemenkov',
       author_email='pklemenkov@gmail.com',
       url='https://github.com/pklemenkov/pymtt',
+      download_url='https://github.com/pklemenkov/pymtt/tarball/master',
+      license='GPL',
       install_requires=[
           'Jinja2 >=2.3'
       ],
