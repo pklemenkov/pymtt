@@ -2,7 +2,7 @@
 from setuptools import setup
 
 setup(name='pymtt',
-      version='0.1',
+      version='0.1.2',
       description='Command-line Text Transformer',
       long_description=open('README.rst').read(),
       author='Pavel Klemenkov',
@@ -10,6 +10,7 @@ setup(name='pymtt',
       url='https://github.com/pklemenkov/pymtt',
       download_url='https://github.com/pklemenkov/pymtt/tarball/master',
       license='GPL',
+      packages=['pymtt'],
       install_requires=[
           'Jinja2 >=2.3'
       ],
