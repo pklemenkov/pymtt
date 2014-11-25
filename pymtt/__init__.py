@@ -5,6 +5,7 @@ import sys
 from optparse import OptionParser
 
 from jinja2 import Environment, FileSystemLoader
+from .filters import makeplist
 
 
 class PyMTT(object):
@@ -20,6 +21,7 @@ class PyMTT(object):
         loader = FileSystemLoader(self.output_dir)
         self.env = Environment(loader=loader, extensions=['jinja2.ext.with_'],
                                trim_blocks=True)
+        self.env.filters['makeplist'] = makeplist
 
     def update_context_from_module(self, module):
         '''Update current context from module.
