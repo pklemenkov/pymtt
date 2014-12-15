@@ -61,6 +61,6 @@ def gen_manifest(root, prefix):
 			h = hashlib.sha256()
 			h.update(f.read())
 		meta = get_stat(path)
-		meta['sum'] = h.hexdigest()
+		meta['sum'] = h.hexdigest() if not os.path.islink(path) else "-"
 		data['files'][os.path.join(prefix, _file)] = meta
 	return yaml.dump(data)
