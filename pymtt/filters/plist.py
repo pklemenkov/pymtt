@@ -12,8 +12,8 @@ PLIST_CMD = "/usr/ports/Tools/scripts/plist"
 PLIST_BSD_LOCAL = "/usr/ports/Templates/BSD.local.dist" 
 
 
-def makeplist(root, prefix='/usr/local'):
-	return gen_manifest(root, prefix)
+def makeplist(root, prefix='/usr/local', user=None, group=None):
+	return gen_manifest(root, prefix, user, group)
 
 
 def _makeplist(root):
@@ -35,17 +35,17 @@ def parse_plist(plist):
 	return dirs, files
 
 
-def get_stat(path):
+def get_stat(path, user, group):
 	meta = {}
 	stat = os.stat(path)
-	meta['uname'] = pwd.getpwuid(stat.st_uid).pw_name
-	meta['gname'] = grp.getgrgid(stat.st_gid).gr_name
+	meta['uname'] = user if user is not None else pwd.getpwuid(stat.st_uid).pw_name
+	meta['gname'] = group if group is not None else grp.getgrgid(stat.st_gid).gr_name
 	meta['perm'] = oct(stat.st_mode & 0777)
 
 	return meta
 
 
-def gen_manifest(root, prefix):
+def gen_manifest(root, prefix, user, group):
 	data = {
 		'dirs': [],
 		'files': {}
@@ -54,13 +54,13 @@ def gen_manifest(root, prefix):
 	dirs, files = parse_plist(plist)
 	for dir in dirs:
 		path = os.path.join(root, prefix[1:], dir)
-		data['dirs'].append({os.path.join(prefix, dir): get_stat(path)})
+		data['dirs'].append({os.path.join(prefix, dir): get_stat(path, user, group)})
 	for _file in files:
 		path = os.path.join(root, prefix[1:], _file)
 		with open(path) as f:
 			h = hashlib.sha256()
 			h.update(f.read())
-		meta = get_stat(path)
+		meta = get_stat(path, user, group)
 		meta['sum'] = h.hexdigest() if not os.path.islink(path) else "-"
 		data['files'][os.path.join(prefix, _file)] = meta
 	return yaml.dump(data)
