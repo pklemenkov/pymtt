@@ -53,10 +53,6 @@ class PyMTT(object):
     def update_context_from_env(self):
         '''Update current context from environment.'''
         for attr, value in os.environ.iteritems():
-            try:
-                value = eval(value)
-            except:
-                pass
             self.context[attr] = value
 
     def module_from_file(self, filename):
