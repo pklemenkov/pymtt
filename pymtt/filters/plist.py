@@ -8,8 +8,9 @@ import os
 import yaml
 
 
-PLIST_CMD = "/usr/ports/Tools/scripts/plist" 
-PLIST_BSD_LOCAL = "/usr/ports/Templates/BSD.local.dist" 
+DIR = os.path.dirname(os.path.abspath(__file__))
+PLIST_CMD = os.path.join(DIR, "plist")
+PLIST_BSD_LOCAL = os.path.join(DIR, "BSD.local.dist")
 
 
 def makeplist(root, prefix='/usr/local', user=None, group=None):
@@ -63,4 +64,4 @@ def gen_manifest(root, prefix, user, group):
 		meta = get_stat(path, user, group)
 		meta['sum'] = h.hexdigest() if not os.path.islink(path) else "-"
 		data['files'][os.path.join(prefix, _file)] = meta
-	return yaml.dump(data)
+	return yaml.safe_dump(data, default_style='"', default_flow_style=True)[1:-1]
