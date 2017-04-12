@@ -1,1 +1,3 @@
 include README.rst
+include pymtt/filters/plist
+include pymtt/filters/BSD.local.dist

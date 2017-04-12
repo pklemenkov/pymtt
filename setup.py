@@ -2,7 +2,7 @@
 from setuptools import setup
 
 setup(name='pymtt',
-      version='0.1.6',
+      version='0.1.9',
       description='Command-line Text Transformer',
       long_description=open('README.rst').read(),
       author='Pavel Klemenkov',
@@ -16,5 +16,6 @@ setup(name='pymtt',
       ],
       scripts=[
           'bin/pymtt'
-      ]
+      ],
+      include_package_data=True
       )
