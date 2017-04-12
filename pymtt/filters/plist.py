@@ -65,4 +65,4 @@ def gen_manifest(root, prefix, user, group):
         meta = get_stat(path, user, group)
         meta['sum'] = h.hexdigest() if not os.path.islink(path) else "-"
         data['files'][os.path.join(prefix, _file)] = meta
-    return json.dumps(data).replace('"', '')[1:-1]
+    return yaml.safe_dump(data, default_style='"', default_flow_style=True)[1:-1]
